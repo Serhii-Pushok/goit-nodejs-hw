@@ -3,17 +3,18 @@ const Joi = require('joi');
 
 const contactSchema = Joi.object({
   name: Joi.string()
-    .min(3)
-    .max(30)
     .required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
-    .required(),
-  phone: Joi.string()
-    .pattern(/^\(\d{3}\) \d{3}-\d{4}$/)
-    .messages({"string.pattern.base": "Invalid phone number format. The format should be (XXX) XXX-XXXX."})
-    .required()
+  email: Joi.string(),
+  phone: Joi.string(),
+  favorite: Joi.boolean()
+})
+
+const updateFavoriteSchema = Joi.object({
+  favorite: Joi.boolean().required()
 })
 
 
-module.exports = contactSchema;
+module.exports = {
+  contactSchema,
+  updateFavoriteSchema
+}
