@@ -3,12 +3,12 @@ const Contact = require('../../models/contact');
 const { contactSchema } = require('../../schemas');
 
 
-const updateContact = async (req, res, next) => {
+const updateStatusContact = async (req, res, next) => {
   try {
     const { error } = contactSchema.validate(req.body);
     if (error) {
       error.status = 400;
-      error.message = "missing fields";
+      error.message = "missing field favorite";
       throw error;
     }
       const { id } = req.params;
@@ -28,4 +28,4 @@ const updateContact = async (req, res, next) => {
   }
 }
 
-module.exports = updateContact;
+module.exports = updateStatusContact;
