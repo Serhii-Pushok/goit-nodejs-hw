@@ -3,7 +3,7 @@ const { contacts: ctrl } = require('../../controllers');
 const {isValidId} = require('../../middlewares');
 
 
-const router = express.Router()
+const router = express.Router();
 
 router.get('/', ctrl.listContacts);
 
@@ -16,5 +16,6 @@ router.delete('/:id', isValidId, ctrl.removeContact);
 router.put('/:id', isValidId, ctrl.updateContact);
 
 router.patch('/:id/favorite', isValidId, ctrl.updateStatusContact);
+
 
 module.exports = router;
