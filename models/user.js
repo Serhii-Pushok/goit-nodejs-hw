@@ -1,4 +1,6 @@
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt');
+
 
 const userSchema = new Schema({
     password: {
@@ -20,6 +22,10 @@ const userSchema = new Schema({
         default: null,
     }
 }, { versionKey: false, timestamps: true });
+
+userSchema.methods.comparePassword = function (password) {
+    return bcrypt.compareSync(password, this.password);
+}
 
 userSchema.post('save', (error, data, next) => {
     error.status = 400;

@@ -1,4 +1,5 @@
 const { Conflict } = require('http-errors');
+const bcrypt = require('bcrypt');
 const User = require('../../models/user');
 const { registerSchema } = require('../../schemas');
 
@@ -18,16 +19,15 @@ const register = async (req, res, next) => {
             throw new Conflict('Email in use');
         }
 
-        await User.create({ password, email, subscription });
+        const hashPassword = await bcrypt.hash(password, 10);
+        await User.create({ password: hashPassword, email, subscription });
         res.status(201).json({
-        status: "success",
-        code: 201,
-        data: {
-            user: {
-                email,
-                subscription
-            }
-        }
+            status: "success",
+            code: 201,
+                user: {
+                    email,
+                    subscription
+                }
         })
 
     } catch (error) {
