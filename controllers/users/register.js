@@ -1,5 +1,6 @@
 const { Conflict } = require('http-errors');
 const bcrypt = require('bcrypt');
+const gravatar = require('gravatar');
 const User = require('../../models/user');
 const { registerSchema } = require('../../schemas');
 
@@ -20,16 +21,17 @@ const register = async (req, res, next) => {
         }
 
         const hashPassword = await bcrypt.hash(password, 10);
-        await User.create({ password: hashPassword, email, subscription });
+        const avatarURL = gravatar.url(email);
+        await User.create({ password: hashPassword, email, subscription, avatarURL });
         res.status(201).json({
             status: "success",
             code: 201,
                 user: {
                     email,
-                    subscription
+                    subscription,
+                    avatarURL
                 }
         })
-
     } catch (error) {
         next(error);
     }
